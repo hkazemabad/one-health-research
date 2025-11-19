@@ -44,6 +44,7 @@ services:
       - one-health-network
     volumes:
       - /srv/www/conf:/usr/local/apache2/conf
+      - /srv/www/letsencrypt/.well-known:/usr/local/apache2/htdocs/.well-known
     depends_on:
       - server
 
