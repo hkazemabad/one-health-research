@@ -10,7 +10,6 @@ import GeneralSearchPageTourComponent from './general-search-tour.component';
 import './general-search.component.scss';
 import SearchResultsPanel from './search-results-table.component';
 import { observer } from 'mobx-react-lite';
-import HistoryTokenList from '../../search-history/components/general-search-history-token-list.component';
 import { Toast } from 'primereact/toast';
 import HistoryModal from '../../search-history/components/general-search-history-modal.component';
 import { RootStoreContext } from '../../../../app/providers/store-provider';
@@ -87,7 +86,6 @@ const SearchPanel: React.FC = () => {
                     }}>
                     <div style={{ display: 'flex' }}>
                         <div className="p-inputgroup general-search-header-input">
-                            <HistoryTokenList />
 
                             <InputText
                                 style={{

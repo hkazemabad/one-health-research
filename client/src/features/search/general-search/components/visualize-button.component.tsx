@@ -23,7 +23,6 @@ const VisualizeButton: React.FC = () => {
             className="visualize-button"
             label="Visualize"
             size="small"
-            style={{ margin: 5 }}
             onClick={() => {
                 neighborhoodExplorerStore.nodes =
                     neighborhoodExplorerStore.nodes.concat(

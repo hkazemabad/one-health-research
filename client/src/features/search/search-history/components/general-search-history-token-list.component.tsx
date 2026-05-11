@@ -4,6 +4,8 @@ import { Button } from 'primereact/button';
 
 import { observer } from 'mobx-react-lite';
 
+// we decided not to use this component and use only the modal because its more intuitive
+
 const HistoryTokenList = () => {
     const historySearchStore = useContext(RootStoreContext).historySearchStore;
     const generalSearchStore = useContext(RootStoreContext).generalSearchStore;
