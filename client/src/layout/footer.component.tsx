@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
             </div>
 
             <div
-                className="app-footer-coloured-dark row"
+                className="app-footer-coloured-dark row fixed-bottom"
                 style={{ padding: '0px' }}>
                 <div className="col-7">
                     <div className="col-2">
