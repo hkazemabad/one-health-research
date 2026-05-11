@@ -43,9 +43,9 @@ services:
     hostname: www.example.com
     networks:
       - frontend
-     # use for production config
-     # volumes:
-     # - /srv/www/conf:/usr/local/apache2/conf
+    volumes:
+      - /srv/www/conf:/usr/local/apache2/conf
+      - /srv/www/letsencrypt/.well-known:/usr/local/apache2/htdocs/.well-known
     depends_on:
       - server
 
