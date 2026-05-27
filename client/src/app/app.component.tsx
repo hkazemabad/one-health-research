@@ -14,8 +14,6 @@ import {
     NeighborhoodExplorerPageComponent,
 } from '../pages';
 
-
-import LoginPage from '../pages/login/LoginPage';
 import CompoundSearchPageComponent from '../pages/compound-search/compound-search-page.component';
 import './app.component.scss';
 import { StoreProvider } from './providers/store-provider';
@@ -47,10 +45,6 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Layout />}>
 
-                        <Route
-                            path="login"
-                            element={<LoginPage />}
-                        />
 
                         <Route index element={<HomePageComponent />} />
 

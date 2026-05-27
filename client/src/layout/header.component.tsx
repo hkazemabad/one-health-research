@@ -3,12 +3,20 @@ import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+import { Password } from 'primereact/password';
+import { Button } from 'primereact/button';
+
 import oneHealthLogo from '../assets/logo-n1h.png';
+
 import './header.component.scss';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [loginVisible, setLoginVisible] = useState(false);
 
     const baseItems: MenuItem[] = [
         {
@@ -90,7 +98,7 @@ const Header: React.FC = () => {
             label: 'Login',
             icon: 'pi pi-sign-in',
             command: () => {
-                navigate('/login');
+                setLoginVisible(true);
             },
         },
     ];
@@ -104,6 +112,15 @@ const Header: React.FC = () => {
             command: () => navigate('/'),
         });
     }
+
+    const handleLogin = () => {
+        console.log('Login clicked');
+
+        // later:
+        // call backend login API here
+
+        setLoginVisible(false);
+    };
 
     const start = (
         <div
@@ -130,8 +147,57 @@ const Header: React.FC = () => {
             <Menubar
                 model={items}
                 start={start}
-                pt={{ start: { style: { marginRight: 'auto' } } }}
+                pt={{
+                    start: {
+                        style: { marginRight: 'auto' }
+                    },
+                }}
             />
+            <Dialog
+                header="Login"
+                visible={loginVisible}
+                style={{ width: '25rem' }}
+                modal
+                onHide={() => setLoginVisible(false)}
+            >
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '1rem',
+                    }}
+                >
+                    <span className="p-float-label">
+                        <InputText
+                            id="username"
+                            className="w-full"
+                        />
+                        <label htmlFor="username">
+                            Username
+                        </label>
+                    </span>
+
+                    <span className="p-float-label">
+                        <Password
+                            id="password"
+                            feedback={false}
+                            toggleMask
+                            className="w-full"
+                            inputClassName="w-full"
+                        />
+                        <label htmlFor="password">
+                            Password
+                        </label>
+                    </span>
+
+                    <Button
+                        label="Login"
+                        icon="pi pi-sign-in"
+                        onClick={handleLogin}
+                    />
+                </div>
+            </Dialog>
+
         </div>
     );
 };
