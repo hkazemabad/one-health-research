@@ -3,20 +3,32 @@ import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
-import { Button } from 'primereact/button';
-
 import oneHealthLogo from '../assets/logo-n1h.png';
 
 import './header.component.scss';
+
+
+import LoginDialog from '../app/components/auth/LoginDialog';
+import { authService } from '../app/services/auth.service';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
     const [loginVisible, setLoginVisible] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        authService.isAuthenticated(),
+    );
+
+    const refreshAuth = () => {
+        setIsLoggedIn(authService.isAuthenticated());
+    };
+
+    const handleLogout = () => {
+        authService.logout();
+        refreshAuth();
+        navigate('/');
+    };
 
     const baseItems: MenuItem[] = [
         {
@@ -94,13 +106,20 @@ const Header: React.FC = () => {
         //         navigate('/test');
         //     }
         // }
-        {
-            label: 'Login',
-            icon: 'pi pi-sign-in',
-            command: () => {
-                setLoginVisible(true);
+
+        !isLoggedIn
+            ?
+            {
+                label: 'Login',
+                icon: 'pi pi-sign-in',
+                command: () => setLoginVisible(true),
+            }
+            :
+            {
+                label: 'Logout',
+                icon: 'pi pi-sign-out',
+                command: handleLogout,
             },
-        },
     ];
 
     const items: MenuItem[] = [...baseItems];
@@ -113,19 +132,16 @@ const Header: React.FC = () => {
         });
     }
 
-    const handleLogin = () => {
-        console.log('Login clicked');
-
-        // later:
-        // call backend login API here
-
-        setLoginVisible(false);
-    };
 
     const start = (
         <div
             className="col"
-            style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '40px'
+            }}
+        >
             <a href="/">
                 <img
                     alt="logo"
@@ -143,62 +159,28 @@ const Header: React.FC = () => {
     );
 
     return (
-        <div className="fluid fixed-top">
-            <Menubar
-                model={items}
-                start={start}
-                pt={{
-                    start: {
-                        style: { marginRight: 'auto' }
-                    },
-                }}
-            />
-            <Dialog
-                header="Login"
-                visible={loginVisible}
-                style={{ width: '25rem' }}
-                modal
-                onHide={() => setLoginVisible(false)}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '1rem',
+        <>
+            <div className="fluid fixed-top">
+                <Menubar
+                    model={items}
+                    start={start}
+                    pt={{
+                        start: {
+                            style: {
+                                marginRight: 'auto',
+                            },
+                        },
                     }}
-                >
-                    <span className="p-float-label">
-                        <InputText
-                            id="username"
-                            className="w-full"
-                        />
-                        <label htmlFor="username">
-                            Username
-                        </label>
-                    </span>
+                />
+            </div>
 
-                    <span className="p-float-label">
-                        <Password
-                            id="password"
-                            feedback={false}
-                            toggleMask
-                            className="w-full"
-                            inputClassName="w-full"
-                        />
-                        <label htmlFor="password">
-                            Password
-                        </label>
-                    </span>
+            <LoginDialog
+                visible={loginVisible}
+                onHide={() => setLoginVisible(false)}
+                onLoginSuccess={refreshAuth}
+            />
+        </>
 
-                    <Button
-                        label="Login"
-                        icon="pi pi-sign-in"
-                        onClick={handleLogin}
-                    />
-                </div>
-            </Dialog>
-
-        </div>
     );
 };
 
