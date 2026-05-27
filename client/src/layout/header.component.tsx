@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import oneHealthLogo from '../assets/logo-n1h.png';
 import './header.component.scss';
 
@@ -85,6 +86,13 @@ const Header: React.FC = () => {
         //         navigate('/test');
         //     }
         // }
+        {
+            label: 'Login',
+            icon: 'pi pi-sign-in',
+            command: () => {
+                navigate('/login');
+            },
+        },
     ];
 
     const items: MenuItem[] = [...baseItems];
