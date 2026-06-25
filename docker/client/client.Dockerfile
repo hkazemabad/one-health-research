@@ -16,10 +16,8 @@ COPY client/ .
 # Build the React app
 RUN npm run build
 
-
 # Use Apache httpd for serving the production build
 FROM httpd
-
 
 # Copy the production build files from the build stage to the nginx web root directory
 COPY --from=build /app/build /usr/local/apache2/htdocs
